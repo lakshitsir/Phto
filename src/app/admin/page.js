@@ -1,28 +1,34 @@
 "use client";
 import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function Admin() {
-  const [pass, setPass] = useState("");
-  const [auth, setAuth] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  if(!auth) return (
-    <div className="h-screen flex items-center justify-center bg-black">
-      <input 
-        type="password" 
-        placeholder="Master Key" 
-        className="bg-zinc-900 border border-white/10 p-4 rounded-xl text-center outline-none"
-        onChange={(e) => e.target.value === "VAULT2026" && setAuth(true)}
-      />
-    </div>
-  )
+  const upload = async () => {
+    if (files.length === 0) return;
+    setLoading(true);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      // Keep original ext but random name for storage uniqueness
+      const name = `${Date.now()}_${i}.${file.name.split('.').pop()}`;
+      await supabase.storage.from('vault').upload(name, file);
+    }
+    setLoading(false);
+    alert("50+ Photos Synced to Vault!");
+  };
 
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-black mb-10">ADMIN DASHBOARD</h1>
-      <div className="border-2 border-dashed border-zinc-800 p-20 text-center rounded-3xl">
-        <p className="opacity-40">Drag & Drop original RAW files here to upload to Vercel/Supabase</p>
+    <div className="h-screen flex items-center justify-center bg-black">
+      <div className="max-w-sm w-full border border-white/5 p-10 rounded-[40px] text-center bg-zinc-900/30">
+        <h1 className="text-[10px] font-black tracking-mega mb-10 opacity-50 uppercase">Vault Upload</h1>
+        <input type="file" multiple onChange={(e) => setFiles(e.target.files)} className="mb-8 block w-full text-[10px] text-zinc-500" />
+        <button onClick={upload} className="w-full bg-white text-black py-4 rounded-full font-black uppercase text-[10px]">
+          {loading ? "Processing RAWs..." : `Push ${files.length} Items`}
+        </button>
       </div>
     </div>
-  )
+  );
     }
-          
+  
