@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true, // No compression, No quality drop
+    unoptimized: true, // Quality protection enabled
   },
 };
 export default nextConfig;
-
