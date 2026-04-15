@@ -1,0 +1,8 @@
+[
+  { "id": 1, "url": "https://link-to-photo-1.jpg", "name": "lakshit_01.jpg" },
+  { "id": 2, "url": "https://link-to-photo-2.jpg", "name": "lakshit_02.jpg" },
+  { "id": 3, "url": "https://link-to-photo-3.jpg", "name": "lakshit_03.jpg" },
+  ...
+  { "id": 25, "url": "https://link-to-photo-25.jpg", "name": "lakshit_50.jpg" }
+]
+
